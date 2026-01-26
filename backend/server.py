@@ -23,7 +23,7 @@ def root():
     return {"message": "RAG backend is alive"}
 
 @app.post("/ask")
-async def ask(file: UploadFile, question: str = Form(...)):
+async def ask(file: UploadFile, question: str = Form(...)): #run the following when a POST request is made to /ask with a file and question
     # Save file to a temporary location
     with tempfile.NamedTemporaryFile(delete=False, suffix=file.filename) as tmp:
         tmp.write(await file.read())
