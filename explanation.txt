@@ -1,0 +1,7 @@
+TECH STACK
+backend : fastAPI
+PDF parsing : pypdf
+Chunking : re
+Embeddings : openai
+Vector DB : FAISS
+LLM : GROQ
