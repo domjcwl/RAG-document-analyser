@@ -1,4 +1,4 @@
-def build_prompt(relevant_chunks, chat_history, user_query):
+def build_prompt(relevant_chunks, user_query, chat_history=[]):
     context = "\n\n".join(relevant_chunks) #the top k chunks
     history = "\n".join(
         [f"{m['role']}: {m['content']}" for m in chat_history]

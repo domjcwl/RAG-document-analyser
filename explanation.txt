@@ -5,3 +5,17 @@ Chunking : re
 Embeddings : openai
 Vector DB : FAISS
 LLM : GROQ
+
+
+
+THE EXACT FLOW FOR CHAT MEMORY
+1. User sends message
+-->another LLM to rephrase the user query based on chat history
+2. embed and Retrieve relevant chunks from vector DB
+3. Build prompt using:
+      - Chat memory
+      - Retrieved context
+      - Current user query
+4. Call LLM
+5. Add message to chat memory
+6. Save assistant reply to memory
