@@ -11,7 +11,7 @@ def call_llm(prompt: str) -> str:
     client = Groq(api_key=api_key)
     response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
-        messages=[{"role": "system", "content": "You are a helpful assistant."},{"role": "user", "content": prompt}],
+        messages=[{"role": "system", "content": "This is a application where I insert files/documents and the asks questions based on this file/document. You are a helpful assistant."},{"role": "user", "content": prompt}],
         temperature=0.2
     )
     

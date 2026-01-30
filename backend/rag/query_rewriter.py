@@ -20,6 +20,9 @@ def rewrite_query(chat_history: list, user_query: str) -> str:
     )
 
     prompt = f"""
+    
+This is a application where I insert files/documents and the asks questions based on this file/document. 
+
 You are a query rewriting assistant.
 
 Given the conversation history and the user's latest question,

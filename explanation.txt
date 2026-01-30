@@ -1,21 +1,42 @@
-TECH STACK
-backend : fastAPI
-PDF parsing : pypdf
-Chunking : re
-Embeddings : openai
-Vector DB : FAISS
-LLM : GROQ
+1.Building the vector database once during submission of file and prompt:
+-You submit a file path of the document you want to analyse
+-With reference to init_store.py, you create a database with dimension 
+384 as the embedder embeds 384 numbers for one chunk. 
+- use load_pdf or load_txt to extract text from the document
+-chunk the text into its different segments
+- embed each chunk into vectors that have 384 dimensions. (n,384) where
+ n is the number of chunks
+- add the embeddings to the database and add the chunks to a list for future indexing
 
 
 
-THE EXACT FLOW FOR CHAT MEMORY
-1. User sends message
--->another LLM to rephrase the user query based on chat history
-2. embed and Retrieve relevant chunks from vector DB
-3. Build prompt using:
-      - Chat memory
-      - Retrieved context
-      - Current user query
-4. Call LLM
-5. Add message to chat memory
-6. Save assistant reply to memory
+2.Initializing Chat Memory during submission of file and prompt:
+-creating an empty list of messages to store future chat_history
+
+3. When User prompts the RAG LLM:
+-when users prompt the chatbot, the chat gets added to the memory which is a list 
+of past messages that was initialised 
+-the prompt gets rewritten by a rewrite_query LLM that takes in chat history, 
+to absorb chat memory. For e.g., If i had previously asked, "Show me what skills
+ this person posesses", and now I say "how profecient are they",
+ the computer would not uds what "they" refers to. Hence, this
+rewrite_query llm helps to rewrite it into something like "What is this person's 
+level of profeciency in the following skills: Python, Javascript, HTML/CSS..."
+-the rewritten prompt gets embedded and rewritten prompt's vector gets compared to the 
+vectors in the vector database.
+-the top K most similar vectors are chosen, and its index is being used to access the 
+unembedded chunk from the chunks list in line 10.(they share the same index)
+-This chunks represent the answers to the question that is asked 
+
+4. RAG LLM generation of text:
+-build a new prompt that contains the chunks, the rewritten prompt and the chat history
+-pass the new prompt to the RAG LLM for generation of text
+-add the newly generated text to the chat history list 
+
+5. Repeat steps 3 and 4 in a loop
+
+
+
+THINGS TO TAKE NOTE, the original prompt is added to chat history, not the rewritten prompt.
+the rewritten prompt is only used to find the relevant chunks to pass to the RAG LLM.
+

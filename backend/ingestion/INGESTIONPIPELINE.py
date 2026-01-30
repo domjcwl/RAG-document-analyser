@@ -12,7 +12,10 @@ def ingest_file(path: str):
         text = load_txt(path)
     else:
         print("Unsupported file type")
+        return
 
     chunks = chunk_text(text)
     embeddings = embed_texts(chunks)
-    database.add(embeddings, chunks)
+    
+    doc_id = path
+    database.add(embeddings, chunks, doc_id)

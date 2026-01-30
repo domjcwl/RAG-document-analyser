@@ -1,3 +1,4 @@
+import os
 from ingestion.loaders import load_pdf, load_txt
 from ingestion.chunker import chunk_text
 from ingestion.embedder import embed_texts
@@ -20,6 +21,7 @@ def build_vector_store_from_file(file_path: str) -> FAISSStore:
 
     chunks = chunk_text(text)
     embeddings = embed_texts(chunks)
-    database.add(embeddings, chunks)
+    doc_id = os.path.basename(file_path)
+    database.add(embeddings, chunks, doc_id)
 
     return database

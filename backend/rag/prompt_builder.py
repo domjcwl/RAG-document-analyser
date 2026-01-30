@@ -5,6 +5,7 @@ def build_prompt(relevant_chunks, user_query, chat_history=[]):
     )
 
     return f"""
+This is a application where I insert files/documents and the asks questions based on this file/document. 
 You are a helpful assistant.
 Respond to the user question based solely on the context chunks.
 Use the chat history to aid you in your reply.
